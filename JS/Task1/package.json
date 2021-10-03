@@ -1,0 +1,20 @@
+{
+  "name": "neo4j",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/da-foxbite/Neo4J.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "neo4j-driver": "^4.3.3"
+  },
+  "homepage": "https://github.com/da-foxbite/Neo4J#readme"
+}
