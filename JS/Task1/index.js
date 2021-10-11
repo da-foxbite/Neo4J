@@ -45,21 +45,21 @@ MATCH (a:BusStop {name:'3-я Фабрика ХБК'}), (b:BusStop {name:'Зал�
 MATCH (a)-[r:TRBUS_1 *0..50]->(b)
 RETURN min(reduce(totalDist = 0, n IN r | totalDist + n.length))
 `);
-console.log(`1st trolley route length (m): ${rlen1}`);
+console.log(`1st trolley route length: ${rlen1} metres`);
 
 const rlen9 = await runQuery(`
 MATCH (a:BusStop {name:'Річпорт'}), (b:BusStop {name:'м/н Шуменський'})
 MATCH (a)-[r:TRBUS_9 *0..50]->(b)
 RETURN min(reduce(totalDist = 0, n IN r | totalDist + n.length))
 `);
-console.log(`9th trolley route length (m): ${rlen9}`);
+console.log(`9th trolley route length: ${rlen9} metres`);
 
 const rlen11 = await runQuery(`
 MATCH (a:BusStop {name:'Річпорт'}), (b:BusStop {name:'Північне селище'})
 MATCH (a)-[r:TRBUS_11 *0..50]->(b)
 RETURN min(reduce(totalDist = 0, n IN r | totalDist + n.length))
 `);
-console.log(`11th trolley route length (m): ${rlen11}`);
+console.log(`11th trolley route length: ${rlen11} metres`);
 
 
 dbConnection.close();
