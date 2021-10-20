@@ -8,7 +8,7 @@ const runQuery = async (query) => {
     const dbResult = await session.run(query);
 
 	if (!dbResult.records[0]) {
-        return 'ERROR! NULL RESULT';
+        return 'ERROR! BAD REQUEST';
     }
 
     const result = dbResult.records[0].get(0);
@@ -19,47 +19,46 @@ const runQuery = async (query) => {
 
 const route1 = await runQuery(`
 MATCH p = (busstrt)-[:TRBUS_1 *0..50]->(busend)
-WHERE busstrt.name = '3-я Фабрика ХБК' AND busend.name = 'Залізничний вокзал'
+WHERE busstrt.name = 'Залізничний вокзал' AND busend.name = '3-я Фабрика ХБК'
 RETURN length(p)+1
 `);
-console.log(`Number of stops in the 1st trolley route: ${route1}`);
-
-const route9 = await runQuery(`
-MATCH p = (busstrt)-[:TRBUS_9 *0..50]->(busend)
-WHERE busstrt.name = 'Річпорт' AND busend.name = 'м/н Шуменський'
-RETURN length(p)+1
-`);
-console.log(`Number of stops in the 9th trolley route: ${route9}`);
-
-const route11 = await runQuery(`
-MATCH p = (busstrt)-[:TRBUS_11 *0..50]->(busend)
-WHERE busstrt.name = 'Річпорт' AND busend.name = 'Північне селище'
-RETURN length(p)+1
-`);
-console.log(`Number of stops in the 11th trolley route: ${route11}`);
-
-
-
+console.log('\n'+`Кол-во остановок на пути маршрута №1: ${route1}`);
+// список
 const rlen1 = await runQuery(`
-MATCH (a:BusStop {name:'3-я Фабрика ХБК'}), (b:BusStop {name:'Залізничний вокзал'})
+MATCH (a:BusStop {name:'Залізничний вокзал'}), (b:BusStop {name:'3-я Фабрика ХБК'})
 MATCH (a)-[r:TRBUS_1 *0..50]->(b)
 RETURN min(reduce(totalDist = 0, n IN r | totalDist + n.length))
 `);
-console.log(`1st trolley route length: ${rlen1} metres`);
+console.log(`Длина маршрута: ${rlen1} метров`,'\n');
 
+const route9 = await runQuery(`
+MATCH p = (busstrt)-[:TRBUS_9 *0..50]->(busend)
+WHERE busstrt.name = 'м/н Шуменський' AND busend.name = 'Річпорт'
+RETURN length(p)+1
+`);
+console.log(`Кол-во остановок на пути маршрута №9: ${route9}`);
+// список
 const rlen9 = await runQuery(`
-MATCH (a:BusStop {name:'Річпорт'}), (b:BusStop {name:'м/н Шуменський'})
+MATCH (a:BusStop {name:'м/н Шуменський'}), (b:BusStop {name:'Річпорт'})
 MATCH (a)-[r:TRBUS_9 *0..50]->(b)
 RETURN min(reduce(totalDist = 0, n IN r | totalDist + n.length))
 `);
-console.log(`9th trolley route length: ${rlen9} metres`);
+console.log(`Длина маршрута: ${rlen9} метров`,'\n');
 
+const route11 = await runQuery(`
+MATCH p = (busstrt)-[:TRBUS_11 *0..50]->(busend)
+WHERE busstrt.name = 'Північне селище' AND busend.name = 'Річпорт'
+RETURN length(p)+1
+`);
+console.log(`Кол-во остановок на пути маршрута №11: ${route11}`);
+// список
 const rlen11 = await runQuery(`
-MATCH (a:BusStop {name:'Річпорт'}), (b:BusStop {name:'Північне селище'})
+MATCH (a:BusStop {name:'Північне селище'}), (b:BusStop {name:'Річпорт'})
 MATCH (a)-[r:TRBUS_11 *0..50]->(b)
 RETURN min(reduce(totalDist = 0, n IN r | totalDist + n.length))
 `);
-console.log(`11th trolley route length: ${rlen11} metres`);
+console.log(`Длина маршрута: ${rlen11} метров`);
+
 
 
 dbConnection.close();
